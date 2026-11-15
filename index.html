@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>PatitasIN · Cada patita cuenta</title>
+<meta name="description" content="PatitasIN es la app del barrio para encontrar mascotas perdidas y compartir el día a día de las tuyas en Santa Cruz de la Sierra. Avisos, mapa, fotos e historias.">
+<meta name="theme-color" content="#fdfdf9">
+<!-- Vista previa al compartir el enlace (WhatsApp, Facebook). Si el sitio cambia de dirección, cambiar og:url y og:image. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PatitasIN">
+<meta property="og:title" content="PatitasIN · Cada patita cuenta">
+<meta property="og:description" content="La app del barrio para encontrar mascotas perdidas y compartir el día a día de las tuyas, en Santa Cruz de la Sierra.">
+<meta property="og:url" content="https://azzaccell.github.io/PatitasIN-Web/">
+<meta property="og:image" content="https://azzaccell.github.io/PatitasIN-Web/img/compartir.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/icono.png">
+<link rel="apple-touch-icon" href="img/icono.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Patrick+Hand&family=Quicksand:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* La misma paleta de la app: papel crema, tinta café, terracota y el verde del pañuelo del logo */
+  :root {
+    --cream: #fdfdf9; --paper: #fdf6ea; --white: #fffcf5; --ink: #3a2418; --ink-2: #6e4b38; --muted: #86624f;
+    --line: #f0d9c4; --pastel: #f9d3b8; --pastel-light: #fbe6d4; --pastel-dark: #efb08c;
+    --terra: #b5532f; --terra-dark: #86391d; --sage: #6f9a6c; --sage-light: #e6eddf; --in: #174d2b; --hanko: #c24332;
+    --serif: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', Georgia, serif;
+    --hand: 'Patrick Hand', 'Segoe Print', cursive;
+    --round: 'Quicksand', 'Nunito', sans-serif;
+    --sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --wrap: 1120px; --gutter: 20px;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { font-family: var(--sans); font-size: 16px; line-height: 1.7; color: var(--ink); background: var(--cream); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+  img { display: block; max-width: 100%; height: auto; }
+  a { color: inherit; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.15; letter-spacing: -.01em; }
+  .wrap { width: 100%; max-width: var(--wrap); margin: 0 auto; padding: 0 var(--gutter); }
+  .icon { width: 22px; height: 22px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  :focus-visible { outline: 3px solid var(--sage); outline-offset: 3px; border-radius: 6px; }
+  .skip { position: absolute; left: -9999px; top: 8px; z-index: 99; padding: 8px 14px; background: var(--ink); color: var(--white); border-radius: 8px; }
+  .skip:focus { left: 8px; }
+
+  /* ---------- cabecera ---------- */
+  .top { position: sticky; top: 0; z-index: 20; background: rgba(253, 253, 249, .94); border-bottom: 1px solid var(--line); backdrop-filter: blur(6px); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
+  .brand { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .brand img { width: 46px; height: auto; }
+  .wordmark { font-family: var(--hand); font-size: 28px; line-height: 1; color: var(--ink); white-space: nowrap; }
+  .wordmark b { margin-left: .04em; font-family: var(--round); font-weight: 700; font-size: .8em; letter-spacing: .02em; color: var(--sage); }
+  .menu { display: none; gap: 26px; font-size: 14.5px; font-weight: 600; color: var(--ink-2); }
+  .menu a { text-decoration: none; }
+  .menu a:hover { color: var(--terra); }
+
+  /* ---------- botones ---------- */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 1.5px solid var(--ink); border-radius: 999px; font: 600 15px/1 var(--sans); text-decoration: none; color: var(--ink); background: var(--white); box-shadow: 3px 3px 0 var(--pastel-dark); transition: transform .15s, box-shadow .15s; }
+  .btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--pastel-dark); }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--pastel-dark); }
+  .btn--dark { background: var(--ink); color: var(--white); box-shadow: 3px 3px 0 var(--sage); }
+  .btn--dark:hover { box-shadow: 4px 4px 0 var(--sage); }
+  .btn--small { min-height: 40px; padding: 0 16px; font-size: 14px; }
+  /* Botón de la tienda. Cuando la app esté publicada, cambiar el texto y poner el enlace de Google Play. */
+  .store { display: inline-flex; align-items: center; gap: 12px; min-height: 58px; padding: 8px 22px 8px 18px; border-radius: 14px; background: var(--ink); color: var(--white); text-decoration: none; box-shadow: 4px 4px 0 var(--sage); }
+  .store svg { width: 26px; height: 26px; fill: currentColor; }
+  .store span { display: grid; line-height: 1.15; text-align: left; }
+  .store small { font-size: 11.5px; letter-spacing: .04em; text-transform: uppercase; opacity: .8; }
+  .store strong { font-size: 19px; font-weight: 600; }
+  .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 28px; }
+
+  /* ---------- portada ---------- */
+  .hero { position: relative; padding: 40px 0 56px; }
+  .hero .wrap { display: grid; gap: 40px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+  .eyebrow .icon { width: 17px; height: 17px; color: var(--terra); }
+  .hero h1 { margin-top: 14px; font-size: clamp(42px, 11vw, 76px); }
+  .sketch { position: relative; white-space: nowrap; }
+  .sketch::after { content: ''; position: absolute; left: 0; right: 0; bottom: -.08em; height: .22em; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6 Q 25 1, 50 6 T 100 6 T 150 6 T 198 6' fill='none' stroke='%236f9a6c' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") center/100% 100% no-repeat; }
+  .lead { max-width: 34em; margin-top: 18px; font-size: 18px; color: var(--ink-2); }
+  .note { font-family: var(--hand); font-size: 19px; color: var(--terra); }
+  .hero__art { position: relative; display: grid; place-items: center; }
+  .hero__art::before { content: ''; position: absolute; width: min(420px, 92%); aspect-ratio: 1; border-radius: 50%; background: var(--sage-light); }
+  .hero__sticker { position: absolute; left: max(0px, calc(50% - 250px)); bottom: -6px; width: clamp(120px, 34vw, 190px); filter: drop-shadow(3px 3px 0 rgba(58, 36, 24, .12)); }
+  .hanko { position: absolute; right: max(4px, calc(50% - 215px)); top: 8%; display: grid; place-items: center; width: 74px; height: 74px; border: 2px solid var(--hanko); border-radius: 50%; color: var(--hanko); font: 700 12px/1.1 var(--round); text-align: center; letter-spacing: .04em; transform: rotate(-12deg); background: rgba(253, 253, 249, .85); }
+
+  /* ---------- teléfono con capturas reales de la app ---------- */
+  .phone { position: relative; width: min(270px, 70vw); aspect-ratio: 560 / 1212; border: 9px solid var(--ink); border-radius: 36px; overflow: hidden; background: var(--ink); box-shadow: 8px 8px 0 var(--pastel-dark); }
+  .phone img { width: 100%; height: 100%; object-fit: cover; }
+  .phone--small { width: min(230px, 62vw); border-width: 8px; border-radius: 32px; box-shadow: 6px 6px 0 var(--pastel-dark); }
+
+  /* ---------- secciones ---------- */
+  section { padding: 72px 0; }
+  .band { background: var(--paper) radial-gradient(rgba(58, 36, 24, .08) 1.1px, transparent 1.2px) 0 0 / 16px 16px; border-block: 1px solid var(--line); }
+  .band--pastel { background: var(--pastel-light); }
+  .head { max-width: 640px; }
+  .head h2 { margin-top: 10px; font-size: clamp(32px, 7vw, 48px); }
+  .head p { margin-top: 14px; font-size: 17px; color: var(--ink-2); }
+  .center { margin-inline: auto; text-align: center; }
+
+  /* qué hacemos: tres pasos */
+  .steps { display: grid; gap: 18px; margin-top: 40px; list-style: none; counter-reset: paso; }
+  .step { position: relative; padding: 26px 22px 24px; border: 1.5px solid var(--ink); border-radius: 16px; background: var(--white); box-shadow: 4px 4px 0 var(--pastel); counter-increment: paso; }
+  .step::before { content: '0' counter(paso); position: absolute; top: 18px; right: 20px; font: 700 15px var(--round); color: var(--pastel-dark); }
+  .step__ico { display: grid; place-items: center; width: 52px; height: 52px; border: 1.5px dashed var(--ink); border-radius: 50%; color: var(--terra); }
+  .step__ico .icon { width: 26px; height: 26px; }
+  .step h3 { margin-top: 16px; font-size: 23px; }
+  .step p { margin-top: 6px; color: var(--ink-2); }
+  .after { margin-top: 30px; text-align: center; font-family: var(--hand); font-size: 22px; color: var(--ink-2); }
+
+  /* funciones: filas con captura */
+  .feature { display: grid; gap: 34px; align-items: center; justify-items: center; padding: 34px 0; }
+  .feature + .feature { border-top: 1px dashed var(--pastel-dark); }
+  .feature__text { width: 100%; max-width: 480px; }
+  .tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px 6px 8px; border: 1.5px solid var(--ink); border-radius: 999px; background: var(--white); font: 700 13px var(--round); letter-spacing: .03em; }
+  .tag .icon { width: 18px; height: 18px; color: var(--terra); }
+  .feature h3 { margin-top: 14px; font-size: clamp(28px, 6vw, 38px); }
+  .feature p { margin-top: 10px; color: var(--ink-2); }
+  .checks { display: grid; gap: 10px; margin-top: 18px; list-style: none; }
+  .checks li { display: flex; gap: 10px; align-items: flex-start; }
+  .checks .icon { width: 20px; height: 20px; margin-top: 3px; color: var(--sage); stroke-width: 2.2; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; list-style: none; }
+  .chips li { padding: 4px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 600; }
+
+  /* seguridad: tarjetas */
+  .cards { display: grid; gap: 14px; margin-top: 36px; }
+  .card { display: flex; gap: 14px; padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+  .card .icon { width: 26px; height: 26px; color: var(--sage); }
+  .card h3 { font: 700 16.5px/1.35 var(--sans); }
+  .card p { margin-top: 4px; font-size: 15px; color: var(--ink-2); }
+  .more { margin-top: 26px; }
+  .textlink { color: var(--terra-dark); font-weight: 600; text-underline-offset: 3px; }
+
+  /* metas */
+  .goals { display: grid; gap: 0; margin-top: 30px; list-style: none; counter-reset: meta; }
+  .goal { display: grid; grid-template-columns: 56px 1fr; gap: 14px; padding: 20px 0; border-bottom: 1px solid var(--line); counter-increment: meta; }
+  .goal::before { content: counter(meta); font: 700 40px/1 var(--serif); color: var(--sage); }
+  .goal h3 { font: 700 18px/1.35 var(--sans); }
+  .goal p { margin-top: 4px; color: var(--ink-2); }
+  .road { display: grid; gap: 12px; margin-top: 30px; }
+  .road div { padding: 16px 18px; border-radius: 14px; border: 1.5px dashed var(--sage); background: var(--sage-light); }
+  .road b { display: block; font: 700 12.5px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--in); }
+
+  /* aliados */
+  .allies { display: grid; gap: 26px; align-items: center; padding: 30px 24px; border: 1.5px solid var(--ink); border-radius: 22px; background: var(--white); box-shadow: 6px 6px 0 var(--pastel); }
+  .allies h2 { font-size: clamp(28px, 6vw, 40px); }
+  .allies p { margin-top: 12px; color: var(--ink-2); }
+  .allies__kinds { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; }
+  .allies__kinds li { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); font-weight: 600; font-size: 15px; }
+  .allies__kinds .icon { color: var(--terra); }
+
+  /* descargar */
+  .cta { text-align: center; }
+  .cta img { width: 200px; margin: 0 auto; }
+  .cta h2 { margin-top: 6px; font-size: clamp(34px, 8vw, 54px); }
+  .cta p { margin-top: 12px; color: var(--ink-2); }
+  .cta .actions { justify-content: center; }
+
+  /* pie */
+  footer { padding: 40px 0 calc(40px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); background: var(--paper); font-size: 14.5px; color: var(--muted); }
+  footer .wrap { display: grid; gap: 16px; }
+  .foot__links { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+  .foot__links a { color: var(--ink-2); font-weight: 600; text-decoration: none; }
+  .foot__links a:hover { color: var(--terra); }
+
+  /* ---------- pantallas grandes ---------- */
+  @media (min-width: 720px) {
+    :root { --gutter: 32px; }
+    .steps { grid-template-columns: repeat(3, 1fr); }
+    .cards { grid-template-columns: repeat(2, 1fr); }
+    .road { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .menu { display: flex; }
+    .hero { padding: 64px 0 84px; }
+    .hero .wrap { grid-template-columns: 1.1fr .9fr; }
+    section { padding: 96px 0; }
+    .feature { grid-template-columns: 1fr 1fr; gap: 56px; padding: 48px 0; }
+    .feature:nth-child(even) .feature__text { order: 2; }
+    .feature__text { justify-self: start; }
+    .feature:nth-child(even) .feature__text { justify-self: end; }
+    .cards { grid-template-columns: repeat(3, 1fr); }
+    .metas { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: start; }
+    .road { grid-template-columns: 1fr; }
+    .allies { grid-template-columns: 1.2fr 1fr; padding: 44px; }
+    footer .wrap { grid-template-columns: 1fr auto; align-items: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn, .btn:hover, .btn:active { transition: none; transform: none; }
+  }
+</style>
+</head>
+<body>
+<!-- Íconos (los mismos dibujos de la app) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24"><path d="M4 9.5v5h3l8 4.5v-14L7 9.5z"/><path d="M18 9.5c1.3.7 1.3 4.3 0 5"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M5.3 18.7 6.4 15A7.6 7.6 0 1 1 9.3 17.9z"/><path d="M9.4 8.8c.2 2.4 2.4 4.8 5.2 5.4l1-1.3-1.7-.9-.8.8c-1-.4-2-1.4-2.4-2.4l.8-.8-.9-1.7z"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v11h-6v-7H9v7H3Z"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20 5c-3-3-6-1-8 1-2-2-5-4-8-1-6 6 8 15 8 15S26 11 20 5Z"/></symbol>
+  <symbol id="i-story" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" stroke-dasharray="3.2 2.4"/><path d="M12 8.5v7M8.5 12h7"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5c3-1.5 6-1.5 8 .5 2-2 5-2 8-.5v14c-3-1.5-6-1.5-8 .5-2-2-5-2-8-.5Z"/><path d="M12 5.5v14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.2 7.5 9.5 4.3-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></symbol>
+  <symbol id="i-photos" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="m4 17 5-4.5 4 3.5 2.5-2 4.5 3.5"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5.5 21V4M5.5 4.5h11l-2.2 4 2.2 4h-11"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c1.2-3.8 4-5.6 7.5-5.6s6.3 1.8 7.5 5.6"/></symbol>
+  <symbol id="i-vet" viewBox="0 0 24 24"><path d="M9.5 4h5v5.5H20v5h-5.5V20h-5v-5.5H4v-5h5.5z"/></symbol>
+  <symbol id="i-store" viewBox="0 0 24 24"><path d="M4 9.5 5.5 4h13L20 9.5M4 9.5h16V20H4zM9.5 20v-5h5v5"/></symbol>
+  <symbol id="i-paw" viewBox="0 0 24 24"><path d="M7 15c2-5 8-5 10 0 6 8-4 6-5 6s-11 2-5-6Z"/><ellipse cx="4" cy="10" rx="2" ry="3"/><ellipse cx="9" cy="5" rx="2" ry="3"/><ellipse cx="15" cy="5" rx="2" ry="3"/><ellipse cx="20" cy="10" rx="2" ry="3"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5c.6 4.3 2.2 6 6.5 6.5-4.3.6-5.9 2.2-6.5 6.5-.6-4.3-2.2-5.9-6.5-6.5 4.3-.5 5.9-2.2 6.5-6.5z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M6 3.8v16.4c0 .8.9 1.3 1.6.9l13.3-8.2c.6-.4.6-1.4 0-1.8L7.6 2.9C6.9 2.5 6 3 6 3.8Z"/></symbol>
+</svg>
+
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="PatitasIN, inicio">
+      <img src="img/simbolo.webp" alt="" width="46" height="38">
+      <span class="wordmark">Patitas<b>IN</b></span>
+    </a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="#que-hacemos">Qué hacemos</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#seguridad">Seguridad</a>
+      <a href="#metas">Metas</a>
+    </nav>
+    <a class="btn btn--dark btn--small" href="#descargar">Descargar</a>
+  </div>
+</header>
+
+<main id="contenido">
+  <!-- Portada -->
+  <section class="hero" aria-labelledby="titulo">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow"><svg class="icon"><use href="#i-pin"/></svg>Santa Cruz de la Sierra · Bolivia</span>
+        <h1 id="titulo">Cada patita <span class="sketch">cuenta.</span></h1>
+        <p class="lead">PatitasIN es la app del barrio para encontrar mascotas perdidas y compartir el día a día de las tuyas. Avisos con mapa, fotos, historias y vecinos que ayudan.</p>
+        <div class="actions">
+          <a class="store" href="#descargar" aria-label="PatitasIN muy pronto en Google Play">
+            <svg aria-hidden="true"><use href="#i-play"/></svg>
+            <span><small>Muy pronto en</small><strong>Google Play</strong></span>
+          </a>
+          <a class="btn" href="#que-hacemos">Cómo funciona</a>
+        </div>
+        <p class="note" style="margin-top:18px">Gratis · Para Android</p>
+      </div>
+      <div class="hero__art">
+        <div class="phone"><img src="img/app-inicio.webp" alt="Pantalla de Inicio de PatitasIN: historias de los vecinos y una cuadrícula de fotos de mascotas" width="560" height="1212" fetchpriority="high"></div>
+        <img class="hero__sticker" src="img/simbolo.webp" alt="" width="360" height="300">
+        <span class="hanko" aria-hidden="true">HECHO EN<br>SANTA<br>CRUZ</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Qué hacemos -->
+  <section id="que-hacemos" class="band" aria-labelledby="t-que">
+    <div class="wrap">
+      <div class="head center">
+        <span class="eyebrow">Qué hacemos</span>
+        <h2 id="t-que">Cuando una mascota se pierde, el barrio es el mejor buscador.</h2>
+        <p>Las primeras horas son las más importantes. PatitasIN junta en un solo lugar los avisos, el mapa y a los vecinos que pueden ayudar a que vuelva a casa.</p>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <span class="step__ico"><svg class="icon"><use href="#i-megaphone"/></svg></span>
+          <h3>Publicas el aviso</h3>
+          <p>Una foto, la zona donde se perdió o la viste y tu WhatsApp. Lleva un minuto y se puede hacer sin crear cuenta.</p>
+        </li>
+        <li class="step">
+          <span class="step__ico"><svg class="icon"><use href="#i-map"/></svg></span>
+          <h3>El barrio lo ve</h3>
+          <p>Aparece en el cuaderno de avisos y en el mapa con su etiqueta: se perdió, lo vieron o lo encontraron. Si se perdió, también va arriba en Inicio.</p>
+        </li>
+        <li class="step">
+          <span class="step__ico"><svg class="icon"><use href="#i-whatsapp"/></svg></span>
+          <h3>Te escriben al instante</h3>
+          <p>Quien la ve te escribe directo por WhatsApp, sin intermediarios. Cuando vuelve, el aviso pasa a «En casa».</p>
+        </li>
+      </ol>
+      <p class="after">Y mientras tanto, el barrio comparte fotos de sus mascotas.</p>
+    </div>
+  </section>
+
+  <!-- Funciones -->
+  <section id="funciones" aria-labelledby="t-funciones">
+    <div class="wrap">
+      <div class="head center">
+        <span class="eyebrow">Funciones</span>
+        <h2 id="t-funciones">Todo lo de tu mascota, en una sola app.</h2>
+      </div>
+
+      <div class="feature">
+        <div class="feature__text">
+          <span class="tag"><svg class="icon"><use href="#i-pin"/></svg>Avisos</span>
+          <h3>El cuaderno de avisos del barrio</h3>
+          <p>Todas las mascotas perdidas, vistas y encontradas de Santa Cruz, en lista o en el mapa.</p>
+          <ul class="chips" aria-label="Tipos de aviso">
+            <li style="background:#f7e4dc;color:#863d2c">Se perdió</li>
+            <li style="background:#e2edf1;color:#325669">Lo vieron</li>
+            <li style="background:#e6eddf;color:#405637">Encontrado</li>
+            <li style="background:#f7efcf;color:#62572f">En casa</li>
+          </ul>
+          <ul class="checks">
+            <li><svg class="icon"><use href="#i-check"/></svg>Mapa con la zona de cada aviso.</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Busca por nombre, detalle o barrio.</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>«Cerca de mí» te ubica en el mapa para ver los avisos de tu zona, y tu ubicación no sale del teléfono.</li>
+          </ul>
+        </div>
+        <div class="phone phone--small"><img src="img/app-avisos.webp" alt="Pantalla de Avisos del barrio con filtros de perdidos, vistos y encontrados" width="560" height="1212" loading="lazy"></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature__text">
+          <span class="tag"><svg class="icon"><use href="#i-home"/></svg>Inicio</span>
+          <h3>La red social de las mascotas del barrio</h3>
+          <p>Fotos de los vecinos y sus mascotas, para conocerse antes de que haga falta buscarse.</p>
+          <ul class="checks">
+            <li><svg class="icon"><use href="#i-check"/></svg>Corazones, comentarios y #etiquetas.</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Mira «Todo» o solo las mascotas que sigues.</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Las mascotas que se buscan siempre aparecen arriba.</li>
+          </ul>
+        </div>
+        <div class="phone phone--small"><img src="img/app-inicio.webp" alt="Pantalla de Inicio con historias y fotos de mascotas" width="560" height="1212" loading="lazy"></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature__text">
+          <span class="tag"><svg class="icon"><use href="#i-story"/></svg>Historias</span>
+          <h3>Historias de 24 horas</h3>
+          <p>Un paseo, una siesta, una travesura. Se ven arriba en Inicio durante un día y después desaparecen.</p>
+          <ul class="checks">
+            <li><svg class="icon"><use href="#i-check"/></svg>Súbelas con un toque desde tu foto.</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Quien las ve puede denunciarlas si algo no está bien.</li>
+          </ul>
+        </div>
+        <div class="phone phone--small"><img src="img/app-historia.webp" alt="Una historia de un perro border collie a pantalla completa" width="560" height="1212" loading="lazy"></div>
+      </div>
+
+      <div class="feature">
+        <div class="feature__text">
+          <span class="tag"><svg class="icon"><use href="#i-book"/></svg>Perfil</span>
+          <h3>Un álbum para cada mascota</h3>
+          <p>Tu perfil guarda las fotos de cada una en su propio álbum, tus avisos y lo que guardaste para después.</p>
+          <ul class="checks">
+            <li><svg class="icon"><use href="#i-check"/></svg>Si se pierde, publicas el aviso desde su ficha con su foto.</li>
+            <li><svg class="icon"><use href="#i-check"/></svg>Guarda avisos y fotos para verlos más tarde.</li>
+          </ul>
+        </div>
+        <div class="phone phone--small"><img src="img/app-perfil.webp" alt="Pantalla de Perfil con los álbumes de dos mascotas" width="560" height="1212" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seguridad -->
+  <section id="seguridad" class="band" aria-labelledby="t-seguridad">
+    <div class="wrap">
+      <div class="head">
+        <span class="eyebrow">Seguridad</span>
+        <h2 id="t-seguridad">Un barrio que se cuida.</h2>
+        <p>PatitasIN se pensó para ayudar sin exponer a nadie.</p>
+      </div>
+      <div class="cards">
+        <div class="card"><svg class="icon"><use href="#i-locate"/></svg><div><h3>Ubicación aproximada</h3><p>El punto de un aviso se guarda redondeado a unos 150 metros, nunca tu casa exacta.</p></div></div>
+        <div class="card"><svg class="icon"><use href="#i-photos"/></svg><div><h3>Fotos sin datos ocultos</h3><p>Antes de subirse, las fotos pierden el lugar donde se tomaron y los demás datos del archivo.</p></div></div>
+        <div class="card"><svg class="icon"><use href="#i-flag"/></svg><div><h3>Denunciar y bloquear</h3><p>Lo que no corresponde se denuncia con un toque, y puedes dejar de ver a quien lo publicó.</p></div></div>
+        <div class="card"><svg class="icon"><use href="#i-shield"/></svg><div><h3>Consejos contra estafas</h3><p>Nadie pide dinero por adelantado para devolver una mascota. Cada aviso te lo recuerda.</p></div></div>
+        <div class="card"><svg class="icon"><use href="#i-lock"/></svg><div><h3>Reglas claras</h3><p>Solo avisos reales y trato amable. Quien publica fotos tiene cuenta con correo confirmado.</p></div></div>
+        <div class="card"><svg class="icon"><use href="#i-trash"/></svg><div><h3>Tus datos son tuyos</h3><p>Borra tu cuenta cuando quieras desde la app: se va todo lo que publicaste, fotos incluidas.</p></div></div>
+      </div>
+      <p class="more"><a class="textlink" href="https://azzaccell.github.io/PatitasIN/privacidad.html">Leer las reglas del barrio y la privacidad</a></p>
+    </div>
+  </section>
+
+  <!-- Metas -->
+  <section id="metas" aria-labelledby="t-metas">
+    <div class="wrap metas">
+      <div class="head">
+        <span class="eyebrow">Metas</span>
+        <h2 id="t-metas">Lo que queremos lograr.</h2>
+        <p>Empezamos en Santa Cruz de la Sierra, con los vecinos que ya prueban la app.</p>
+        <div class="road">
+          <div><b>Ahora</b>Probando PatitasIN con vecinos de Santa Cruz.</div>
+          <div><b>Muy pronto</b>PatitasIN en Google Play, gratis.</div>
+        </div>
+      </div>
+      <ol class="goals">
+        <li class="goal"><div><h3>Que ninguna mascota perdida se quede sin aviso</h3><p>Publicar tiene que ser tan fácil que nadie lo deje para después.</p></div></li>
+        <li class="goal"><div><h3>Que el aviso llegue rápido a quien puede ayudar</h3><p>Los vecinos de la zona son los que más pueden ver a una mascota perdida.</p></div></li>
+        <li class="goal"><div><h3>Un barrio amable y seguro</h3><p>Reglas claras, denuncias y cuidado con los datos de cada persona.</p></div></li>
+        <li class="goal"><div><h3>Apoyar a quienes cuidan a los animales</h3><p>Veterinarias, refugios y negocios del barrio, cerca de quienes los necesitan.</p></div></li>
+        <li class="goal"><div><h3>Llegar a más ciudades de Bolivia</h3><p>Que cada barrio tenga su cuaderno de avisos.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Aliados del barrio -->
+  <section id="aliados" class="band band--pastel" aria-labelledby="t-aliados">
+    <div class="wrap">
+      <div class="allies">
+        <div>
+          <span class="eyebrow">Aliados del barrio</span>
+          <h2 id="t-aliados" style="margin-top:10px">¿Tienes una veterinaria o un negocio para mascotas?</h2>
+          <p>En Inicio hay un espacio para los aliados del barrio, a la vista de los vecinos que tienen mascotas cerca de ti. Muy pronto vas a poder anunciar tu negocio en PatitasIN.</p>
+        </div>
+        <ul class="allies__kinds" aria-label="Quiénes pueden ser aliados">
+          <li><svg class="icon"><use href="#i-vet"/></svg>Veterinarias</li>
+          <li><svg class="icon"><use href="#i-store"/></svg>Tiendas y alimento</li>
+          <li><svg class="icon"><use href="#i-paw"/></svg>Peluquerías y paseadores</li>
+          <li><svg class="icon"><use href="#i-heart"/></svg>Refugios y rescatistas</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Descargar -->
+  <section id="descargar" class="cta" aria-labelledby="t-descargar">
+    <div class="wrap">
+      <img src="img/logo.webp" alt="PatitasIN" width="720" height="671" loading="lazy">
+      <h2 id="t-descargar">Lleva el barrio en tu bolsillo.</h2>
+      <p>PatitasIN llega muy pronto a Google Play, gratis para Android.</p>
+      <div class="actions">
+        <a class="store" href="#descargar" aria-label="PatitasIN muy pronto en Google Play">
+          <svg aria-hidden="true"><use href="#i-play"/></svg>
+          <span><small>Muy pronto en</small><strong>Google Play</strong></span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <span class="wordmark">Patitas<b>IN</b></span>
+      <p style="margin-top:6px">Hecho con cariño en Santa Cruz de la Sierra, Bolivia.<br>© 2026 PatitasIN</p>
+    </div>
+    <nav class="foot__links" aria-label="Enlaces">
+      <a href="#funciones">Funciones</a>
+      <a href="#metas">Metas</a>
+      <a href="https://azzaccell.github.io/PatitasIN/privacidad.html">Reglas y privacidad</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
