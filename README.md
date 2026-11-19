@@ -15,7 +15,7 @@ GitHub → Settings → Pages → *Deploy from a branch* → `main` / `(root)`.
 
 ## Pendiente
 - Cuando la app esté en Google Play: cambiar el botón «Muy pronto en Google Play» por el sello oficial y el
-  enlace `https://play.google.com/store/apps/details?id=com.patitas.japon`.
+  enlace `https://play.google.com/store/apps/details?id=com.patitasin.app`.
 - Si se compra un dominio: agregarlo en Settings → Pages y cambiar `og:url` y `og:image` en `index.html`.
 
 © 2026 PatitasIN. Todos los derechos reservados.
